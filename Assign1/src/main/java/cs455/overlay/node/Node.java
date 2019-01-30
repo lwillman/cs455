@@ -4,10 +4,7 @@ import wireformats.Event;
 
 public interface Node {
 
-    private String hostname;
-    private int portNumber;
-
-    private void setPortNumber();
+    public void setPortNumber();
     public String getHostname();
     public int getPortNumber();
 

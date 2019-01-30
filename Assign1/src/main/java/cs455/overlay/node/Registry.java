@@ -2,20 +2,24 @@ package node;
 
 import wireformats.Event;
 
+import java.util.LinkedList;
+
 public class Registry implements Node{
 
     private LinkedList registry;
+    private String hostname;
+    private int portNumber;
+
     //Each instance creates its own TCPServer/Reciever/Sender threads
 
     //A node receives link weights once from the registry before it gets a task initiate message.
 
     public Registry(){
         super();
-        registry = new LinkedList<MassagingNode>;
+        registry = new LinkedList<MessagingNode>();
     }
 
-    private void setPortNumber(){
-
+    public void setPortNumber(){
     }
 
     public String getHostname(){
@@ -26,15 +30,15 @@ public class Registry implements Node{
        return 0;
     }
 
-    private listMessagingNodes(){
+    private void listMessagingNodes(){
         //Hostname and port number for each messaging node should be listed on separate line
     }
 
-    private listWeights(){
+    private void listWeights(){
         //Lists weight and nodes connected for each link on separate line
     }
 
-    private setupOverlay(int numberOfConnections){
+    private void setupOverlay(int numberOfConnections){
         //Min numberOfConnections 4
         //Sets up overlay
         //Sends messaging nodes messages telling it which other nodes to connect to
@@ -44,12 +48,12 @@ public class Registry implements Node{
         //Must handle the case where a messaging node is registered/deregistered before overlay is set up
     }
 
-    private sendOverlayLinkWeight (){
+    private void sendOverlayLinkWeight (){
         //Sends Link_Weights message to all registered nodes in overlay
         //Run once after setupOverlay() has been run
     }
 
-    private start(int numberOfRounds){
+    private void start(int numberOfRounds){
         //Results in nodes exchanging messages
         //Each node will be responding for sending Number-of-rounds messages
     }
