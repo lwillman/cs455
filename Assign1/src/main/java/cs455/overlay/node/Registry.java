@@ -7,6 +7,7 @@ import java.util.LinkedList;
 public class Registry implements Node{
 
     private LinkedList registry;
+
     private String hostname;
     private int portNumber;
     private int nunmberOfMessagesSent;
