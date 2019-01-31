@@ -9,6 +9,8 @@ public class Registry implements Node{
     private LinkedList registry;
     private String hostname;
     private int portNumber;
+    private int nunmberOfMessagesSent;
+    private int numberOfMessagesRecieved;
 
     //Each instance creates its own TCPServer/Reciever/Sender threads
 
@@ -59,6 +61,10 @@ public class Registry implements Node{
     }
 
     public void onEvent(Event event){
+
+    }
+
+    public void main(String[] args){
 
     }
 
