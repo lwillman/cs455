@@ -3,7 +3,10 @@ package node;
 import wireformats.Event;
 
 public class MessagingNode implements Node {
-    
+
+    private LinkWeights linkWeight;
+
+
     //Will need access to sender reciever threads
 
     //The first thing a MessagingNode should do when initiating a connection with another
@@ -34,6 +37,7 @@ public class MessagingNode implements Node {
     //Similar to the way TCP uses a three-way handshake.
 
     public void onEvent(Event event){
+
     
     }
 }
