@@ -1,10 +1,19 @@
 package node;
 
+import transport.TCPReceiverThread;
+import transport.TCPSender;
+import transport.TCPServerThread;
 import wireformats.Event;
+import wireformats.LinkWeights;
+
+import java.net.ServerSocket;
+import java.util.LinkedList;
 
 public class MessagingNode implements Node {
 
-    private LinkWeights linkWeight;
+    private LinkedList<LinkWeights> linkWeightsList;
+    private int portNumber;
+    private String hostname;
 
 
     //Will need access to sender reciever threads
@@ -36,8 +45,22 @@ public class MessagingNode implements Node {
     //When you initiate your connection to another node, send a message with the information you need.
     //Similar to the way TCP uses a three-way handshake.
 
+    @Override
+    public void setPortNumber() {
+
+    }
+
+    @Override
+    public String getHostname() {
+        return null;
+    }
+
+    @Override
+    public int getPortNumber() {
+        return 0;
+    }
+
     public void onEvent(Event event){
 
-    
     }
 }
