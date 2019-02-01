@@ -14,6 +14,11 @@ public class MessagingNode implements Node {
     private LinkedList<LinkWeights> linkWeightsList;
     private int portNumber;
     private String hostname;
+    
+    public MessagingNode(String hostname, int portNumber){
+        this.hostname = hostname;
+        this.portNumber = portNumber;
+    }
 
 
     //Will need access to sender reciever threads
@@ -52,15 +57,17 @@ public class MessagingNode implements Node {
 
     @Override
     public String getHostname() {
-        return null;
+        
+        return this.hostname;
     }
 
     @Override
     public int getPortNumber() {
-        return 0;
+        
+        return this.portNumber;
     }
 
     public void onEvent(Event event){
-
+    
     }
 }
