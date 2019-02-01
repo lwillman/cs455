@@ -8,6 +8,8 @@ public interface Node {
     public String getHostname();
     public int getPortNumber();
 
-    public void onEvent(Event event);
+    public void onEvent(Event event){
+    
+    }
     
 }
