@@ -14,11 +14,13 @@ public class MessagingNode implements Node {
     private LinkedList<LinkWeights> linkWeightsList;
     private int portNumber;
     private String hostname;
+
     
     public MessagingNode(String hostname, int portNumber){
         this.hostname = hostname;
         this.portNumber = portNumber;
     }
+
 
 
     //Will need access to sender reciever threads
@@ -50,14 +52,9 @@ public class MessagingNode implements Node {
     //When you initiate your connection to another node, send a message with the information you need.
     //Similar to the way TCP uses a three-way handshake.
 
-    @Override
-    public void setPortNumber() {
-
-    }
 
     @Override
     public String getHostname() {
-        
         return this.hostname;
     }
 
@@ -69,5 +66,9 @@ public class MessagingNode implements Node {
 
     public void onEvent(Event event){
     
+    }
+
+    public static void main(String[] args){
+
     }
 }

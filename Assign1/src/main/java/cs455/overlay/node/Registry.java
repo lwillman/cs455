@@ -1,7 +1,14 @@
 package node;
 
+import util.RegistrationRequest;
 import wireformats.Event;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.BindException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.LinkedList;
 
 public class Registry implements Node{
@@ -12,25 +19,24 @@ public class Registry implements Node{
     private int portNumber;
     private int nunmberOfMessagesSent;
     private int numberOfMessagesRecieved;
+    private ServerSocket serversocket;
+
 
     //Each instance creates its own TCPServer/Reciever/Sender threads
 
     //A node receives link weights once from the registry before it gets a task initiate message.
 
-    public Registry(){
-        super();
-        registry = new LinkedList<MessagingNode>();
+    public Registry(int portNumber){
+        this.portNumber = portNumber;
     }
 
-    public void setPortNumber(){
-    }
 
     public String getHostname(){
-        return null;
+        return this.hostname;
     }
 
     public int getPortNumber(){
-       return 0;
+       return this.portNumber;
     }
 
     private void listMessagingNodes(){
@@ -49,6 +55,25 @@ public class Registry implements Node{
         //Sends MESSAGING_NODE_LIST to every messaging node
         //Handles error of having fewer nodes than numberOfConnections
         //Must handle the case where a messaging node is registered/deregistered before overlay is set up
+        try {
+            serversocket = new ServerSocket(numberOfConnections, this.portNumber);
+            System.out.println("Server is listening on port " + this.portNumber);
+
+            while(true) {
+
+                Socket socket = serversocket.accept();
+                System.out.println("New client connected");
+
+                Thread registryThread = new Thread();
+                DataInputStream din = new DataInputStream(socket.getInputStream());
+                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
+
+            }
+        } catch(BindException be){
+            System.out.println("Bind exception: " + be.getMessage());
+        } catch (IOException ioe){
+            System.out.println("IO Exception " + ioe);
+        }
     }
 
     private void sendOverlayLinkWeight (){
@@ -63,9 +88,13 @@ public class Registry implements Node{
 
     public void onEvent(Event event){
 
+
     }
 
     public void main(String[] args){
+        Registry registry = new Registry(5000);
+        //registry.setupOverlay();
+
 
     }
 
