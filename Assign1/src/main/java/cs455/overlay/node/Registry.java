@@ -26,6 +26,10 @@ public class Registry implements Node{
 
     //A node receives link weights once from the registry before it gets a task initiate message.
 
+    /**
+     * Constructor
+     * @param portNumber int
+     */
     public Registry(int portNumber){
         this.portNumber = portNumber;
     }
@@ -37,6 +41,10 @@ public class Registry implements Node{
 
     public int getPortNumber(){
        return this.portNumber;
+    }
+
+    public void onEvent(Event event){
+
     }
 
     private void listMessagingNodes(){
@@ -84,11 +92,6 @@ public class Registry implements Node{
     private void start(int numberOfRounds){
         //Results in nodes exchanging messages
         //Each node will be responding for sending Number-of-rounds messages
-    }
-
-    public void onEvent(Event event){
-
-
     }
 
     public void main(String[] args){

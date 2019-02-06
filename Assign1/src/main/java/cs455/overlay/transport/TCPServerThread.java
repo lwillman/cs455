@@ -1,7 +1,9 @@
 package transport;
 
+import java.net.ServerSocket;
+
 public class TCPServerThread {
 
-    //ServerSocket.getInetAddress().getLocalHost().getHostName(); to get HostName
+    //private String hostname = ServerSocket.getInetAddress().getLocalHost().getHostName();
 
 }
