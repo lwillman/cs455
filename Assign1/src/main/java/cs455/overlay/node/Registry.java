@@ -1,5 +1,6 @@
 package node;
 
+import transport.TCPServerThread;
 import util.RegistrationRequest;
 import wireformats.Event;
 
@@ -11,10 +12,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
-public class Registry implements Node{
+public class Registry implements Node {
 
     private LinkedList registry;
-
     private String hostname;
     private int portNumber;
     private int nunmberOfMessagesSent;
@@ -43,6 +43,11 @@ public class Registry implements Node{
        return this.portNumber;
     }
 
+    @Override
+    public ServerSocket getServerSocket() {
+        return this.serversocket;
+    }
+
     public void onEvent(Event event){
 
     }
@@ -64,19 +69,12 @@ public class Registry implements Node{
         //Handles error of having fewer nodes than numberOfConnections
         //Must handle the case where a messaging node is registered/deregistered before overlay is set up
         try {
+
             serversocket = new ServerSocket(numberOfConnections, this.portNumber);
-            System.out.println("Server is listening on port " + this.portNumber);
+            TCPServerThread serverThread = new TCPServerThread(this);
+            serverThread.run();
 
-            while(true) {
 
-                Socket socket = serversocket.accept();
-                System.out.println("New client connected");
-
-                Thread registryThread = new Thread();
-                DataInputStream din = new DataInputStream(socket.getInputStream());
-                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
-
-            }
         } catch(BindException be){
             System.out.println("Bind exception: " + be.getMessage());
         } catch (IOException ioe){
@@ -94,9 +92,10 @@ public class Registry implements Node{
         //Each node will be responding for sending Number-of-rounds messages
     }
 
-    public void main(String[] args){
-        Registry registry = new Registry(5000);
-        //registry.setupOverlay();
+    public static void main(String[] args){
+        Registry registry = new Registry(Integer.parseInt(args[0]));
+        registry.setupOverlay(2);
+
 
 
     }
