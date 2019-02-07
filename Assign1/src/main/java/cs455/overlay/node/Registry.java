@@ -1,5 +1,6 @@
 package node;
 
+import org.omg.PortableServer.Servant;
 import util.RegistrationRequest;
 import wireformats.Event;
 
@@ -11,7 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
-public class Registry implements Node{
+public class Registry implements Node extends Runnable {
 
     private LinkedList registry;
 
@@ -55,25 +56,7 @@ public class Registry implements Node{
         //Sends MESSAGING_NODE_LIST to every messaging node
         //Handles error of having fewer nodes than numberOfConnections
         //Must handle the case where a messaging node is registered/deregistered before overlay is set up
-        try {
-            serversocket = new ServerSocket(numberOfConnections, this.portNumber);
-            System.out.println("Server is listening on port " + this.portNumber);
-
-            while(true) {
-
-                Socket socket = serversocket.accept();
-                System.out.println("New client connected");
-
-                Thread registryThread = new Thread();
-                DataInputStream din = new DataInputStream(socket.getInputStream());
-                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
-
-            }
-        } catch(BindException be){
-            System.out.println("Bind exception: " + be.getMessage());
-        } catch (IOException ioe){
-            System.out.println("IO Exception " + ioe);
-        }
+       
     }
 
     private void sendOverlayLinkWeight (){
@@ -81,9 +64,34 @@ public class Registry implements Node{
         //Run once after setupOverlay() has been run
     }
 
-    private void start(int numberOfRounds){
+    private void start(int numberOfRounds) {
         //Results in nodes exchanging messages
         //Each node will be responding for sending Number-of-rounds messages
+    }
+    
+    @Override
+    public void run(){
+        try {
+            serversocket = new ServerSocket(numberOfConnections, this.portNumber);
+            System.out.println("Server is listening on port " + this.portNumber);
+        
+            while(true) {
+            
+                Socket socket = serversocket.accept();
+                System.out.println("New client connected");
+    
+                //TCPServerThread serverThread = new TCPServerThread(this, socket);
+                DataInputStream din = new DataInputStream(socket.getInputStream());
+                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
+                
+                
+            
+            }
+        } catch(BindException be){
+            System.out.println("Bind exception: " + be.getMessage());
+        } catch (IOException ioe){
+            System.out.println("IO Exception " + ioe);
+        }
     }
 
     public void onEvent(Event event){
@@ -93,6 +101,7 @@ public class Registry implements Node{
 
     public void main(String[] args){
         Registry registry = new Registry(5000);
+        
         //registry.setupOverlay();
 
 

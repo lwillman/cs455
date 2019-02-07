@@ -6,14 +6,19 @@ import transport.TCPServerThread;
 import wireformats.Event;
 import wireformats.LinkWeights;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.LinkedList;
 
-public class MessagingNode implements Node {
-
-    private LinkedList<LinkWeights> linkWeightsList;
+public class MessagingNode implements Node extends run {
+    
     private int portNumber;
     private String hostname;
+    byte[] marshalledBytes;
 
     
     public MessagingNode(String hostname, int portNumber){
@@ -65,9 +70,30 @@ public class MessagingNode implements Node {
     }
 
     public void onEvent(Event event){
-    
+        Marshall marshaller = new Marshall(0, "Hello", 1);
+        this.marshalledBytes = marshaller.getBytes();
     }
-
+    
+    @Override
+    public void run(){
+        try {
+            while(true) {
+                
+                Socket socket = new Socket(5000);
+                System.out.println("New client connected");
+                
+                //TCPServerThread serverThread = new TCPServerThread(this, socket);
+                DataInputStream din = new DataInputStream(socket.getInputStream());
+                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
+                
+            }
+        } catch(BindException be){
+            System.out.println("Bind exception: " + be.getMessage());
+        } catch (IOException ioe){
+            System.out.println("IO Exception " + ioe);
+        }
+    }
+    
     public static void main(String[] args){
 
     }

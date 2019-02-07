@@ -1,13 +1,21 @@
-package wireformats;
+package util;
 
 import java.io.*;
+import java.sql.Timestamp;
 
-public class WireFormatItem {
+public class Marshall {
     
     private int type;
     private long timestamp;
     private String identifier;
     private int tracker;
+    
+    public Marshall(int type, String identifier, int tracker){
+        this.type = type;
+        this.identifier = identifier;
+        this.tracker = tracker;
+        this.timestamp = new Timestamp().getTime();
+    }
     
     public byte[] getBytes() throws IOException {
         byte[] marshalledBytes = null;
