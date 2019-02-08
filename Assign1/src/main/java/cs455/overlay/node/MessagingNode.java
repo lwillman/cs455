@@ -1,11 +1,10 @@
-package node;
+package cs455.overlay.node;
 
-import com.sun.security.ntlm.Server;
-import transport.TCPReceiverThread;
-import transport.TCPSender;
-import transport.TCPServerThread;
-import wireformats.Event;
-import wireformats.LinkWeights;
+import cs455.overlay.transport.TCPReceiverThread;
+import cs455.overlay.transport.TCPSender;
+import cs455.overlay.transport.TCPServerThread;
+import cs455.overlay.wireformats.Event;
+import cs455.overlay.wireformats.LinkWeights;
 
 import java.io.IOException;
 import java.net.BindException;

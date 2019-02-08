@@ -1,9 +1,9 @@
-package transport;
+package cs455.overlay.transport;
 
-import node.Node;
-import node.Registry;
+import cs455.overlay.node.Node;
+import cs455.overlay.node.Registry;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-import wireformats.Register;
+import cs455.overlay.wireformats.Register;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

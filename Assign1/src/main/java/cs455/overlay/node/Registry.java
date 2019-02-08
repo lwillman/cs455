@@ -1,8 +1,8 @@
-package node;
+package cs455.overlay.node;
 
-import transport.TCPServerThread;
-import util.RegistrationRequest;
-import wireformats.Event;
+import cs455.overlay.transport.TCPServerThread;
+import cs455.overlay.util.RegistrationRequest;
+import cs455.overlay.wireformats.Event;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -95,9 +95,6 @@ public class Registry implements Node {
     public static void main(String[] args){
         Registry registry = new Registry(Integer.parseInt(args[0]));
         registry.setupOverlay(2);
-
-
-
     }
 
 

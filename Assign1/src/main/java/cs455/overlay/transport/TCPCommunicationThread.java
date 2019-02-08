@@ -1,6 +1,6 @@
-package transport;
+package cs455.overlay.transport;
 
-import node.Node;
+import cs455.overlay.node.Node;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

@@ -1,4 +1,3 @@
 plugins {
     id 'java'
-    id 'junit 4.12'
 }
