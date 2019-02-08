@@ -1,4 +1,4 @@
-package util;
+package cs455.overlay.wireformats;
 
 public class StatisticsCollectorAndDisplay {
 }

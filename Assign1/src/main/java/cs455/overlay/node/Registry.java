@@ -1,4 +1,4 @@
-package node;
+package cs455.overlay.node;
 
 import transport.TCPServerThread;
 import util.RegistrationRequest;

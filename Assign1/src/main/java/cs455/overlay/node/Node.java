@@ -1,4 +1,4 @@
-package src.main.java.cs455.overlay.node;
+package cs455.overlay.node;
 
 import wireformats.Event;
 
