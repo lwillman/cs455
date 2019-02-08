@@ -1,8 +1,8 @@
-package cs455.overlay.wireformats;
+package cs455.overlay.util;
 
 import java.io.*;
 
-public class WireFormatItem {
+public class Marshall {
     
     private int type;
     private long timestamp;
@@ -14,7 +14,7 @@ public class WireFormatItem {
      * @param marshalledBytes byte array
      * @throws IOException
      */
-    public WireFormatItem(byte[] marshalledBytes) throws IOException {
+    public Marshall (byte[] marshalledBytes) throws IOException {
         ByteArrayInputStream baInputStream =
                 new ByteArrayInputStream(marshalledBytes);
         DataInputStream din =

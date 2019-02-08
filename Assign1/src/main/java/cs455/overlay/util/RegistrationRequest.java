@@ -1,4 +1,4 @@
-package cs455.overlay.wireformats;
+package cs455.overlay.util;
 
 public class RegistrationRequest {
 
