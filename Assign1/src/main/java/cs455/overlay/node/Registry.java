@@ -1,6 +1,6 @@
 package node;
 
-import org.omg.PortableServer.Servant;
+import transport.TCPServerThread;
 import util.RegistrationRequest;
 import wireformats.Event;
 
@@ -12,10 +12,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
-public class Registry implements Node extends Runnable {
+public class Registry implements Node {
 
     private LinkedList registry;
-
     private String hostname;
     private int portNumber;
     private int nunmberOfMessagesSent;
@@ -27,6 +26,10 @@ public class Registry implements Node extends Runnable {
 
     //A node receives link weights once from the registry before it gets a task initiate message.
 
+    /**
+     * Constructor
+     * @param portNumber int
+     */
     public Registry(int portNumber){
         this.portNumber = portNumber;
     }
@@ -38,6 +41,15 @@ public class Registry implements Node extends Runnable {
 
     public int getPortNumber(){
        return this.portNumber;
+    }
+
+    @Override
+    public ServerSocket getServerSocket() {
+        return this.serversocket;
+    }
+
+    public void onEvent(Event event){
+
     }
 
     private void listMessagingNodes(){
@@ -56,37 +68,13 @@ public class Registry implements Node extends Runnable {
         //Sends MESSAGING_NODE_LIST to every messaging node
         //Handles error of having fewer nodes than numberOfConnections
         //Must handle the case where a messaging node is registered/deregistered before overlay is set up
-       
-    }
-
-    private void sendOverlayLinkWeight (){
-        //Sends Link_Weights message to all registered nodes in overlay
-        //Run once after setupOverlay() has been run
-    }
-
-    private void start(int numberOfRounds) {
-        //Results in nodes exchanging messages
-        //Each node will be responding for sending Number-of-rounds messages
-    }
-    
-    @Override
-    public void run(){
         try {
+
             serversocket = new ServerSocket(numberOfConnections, this.portNumber);
-            System.out.println("Server is listening on port " + this.portNumber);
-        
-            while(true) {
-            
-                Socket socket = serversocket.accept();
-                System.out.println("New client connected");
-    
-                //TCPServerThread serverThread = new TCPServerThread(this, socket);
-                DataInputStream din = new DataInputStream(socket.getInputStream());
-                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
-                
-                
-            
-            }
+            TCPServerThread serverThread = new TCPServerThread(this);
+            serverThread.run();
+
+
         } catch(BindException be){
             System.out.println("Bind exception: " + be.getMessage());
         } catch (IOException ioe){
@@ -94,15 +82,20 @@ public class Registry implements Node extends Runnable {
         }
     }
 
-    public void onEvent(Event event){
-
-
+    private void sendOverlayLinkWeight (){
+        //Sends Link_Weights message to all registered nodes in overlay
+        //Run once after setupOverlay() has been run
     }
 
-    public void main(String[] args){
-        Registry registry = new Registry(5000);
-        
-        //registry.setupOverlay();
+    private void start(int numberOfRounds){
+        //Results in nodes exchanging messages
+        //Each node will be responding for sending Number-of-rounds messages
+    }
+
+    public static void main(String[] args){
+        Registry registry = new Registry(Integer.parseInt(args[0]));
+        registry.setupOverlay(2);
+
 
 
     }

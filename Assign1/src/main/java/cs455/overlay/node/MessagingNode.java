@@ -1,31 +1,30 @@
 package node;
 
+import com.sun.security.ntlm.Server;
 import transport.TCPReceiverThread;
 import transport.TCPSender;
 import transport.TCPServerThread;
 import wireformats.Event;
 import wireformats.LinkWeights;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
-public class MessagingNode implements Node extends run {
-    
+public class MessagingNode implements Node {
+
+    private LinkedList<LinkWeights> linkWeightsList;
     private int portNumber;
     private String hostname;
-    byte[] marshalledBytes;
+    private ServerSocket serverSocket;
 
     
     public MessagingNode(String hostname, int portNumber){
         this.hostname = hostname;
         this.portNumber = portNumber;
     }
-
 
 
     //Will need access to sender reciever threads
@@ -57,6 +56,16 @@ public class MessagingNode implements Node extends run {
     //When you initiate your connection to another node, send a message with the information you need.
     //Similar to the way TCP uses a three-way handshake.
 
+    public void start(){
+        try {
+            Socket socket = new Socket(this.hostname, this.portNumber);
+            System.out.println("Socket bound to port: " + this.portNumber);
+            TCPSender sender = new TCPSender(socket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @Override
     public String getHostname() {
@@ -64,37 +73,28 @@ public class MessagingNode implements Node extends run {
     }
 
     @Override
-    public int getPortNumber() {
-        
-        return this.portNumber;
-    }
+    public int getPortNumber() { return this.portNumber;}
+
+    @Override
+    public ServerSocket getServerSocket() {
+        try {
+            this.serverSocket = new ServerSocket(0);
+            //TCPServerThread call
+            System.out.println("Messaging node listening socket on Port: " + this.serverSocket.getLocalPort());
+        } catch (BindException be) {
+            System.out.println("BindException MessagingNode " + be.getMessage());
+        } catch (IOException ioe){
+            System.out.println("IO Exception " + ioe.getMessage());
+        }
+        return this.serverSocket; }
 
     public void onEvent(Event event){
-        Marshall marshaller = new Marshall(0, "Hello", 1);
-        this.marshalledBytes = marshaller.getBytes();
-    }
     
-    @Override
-    public void run(){
-        try {
-            while(true) {
-                
-                Socket socket = new Socket(5000);
-                System.out.println("New client connected");
-                
-                //TCPServerThread serverThread = new TCPServerThread(this, socket);
-                DataInputStream din = new DataInputStream(socket.getInputStream());
-                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
-                
-            }
-        } catch(BindException be){
-            System.out.println("Bind exception: " + be.getMessage());
-        } catch (IOException ioe){
-            System.out.println("IO Exception " + ioe);
-        }
     }
-    
+
     public static void main(String[] args){
+        MessagingNode messagingNode = new MessagingNode(args[0], Integer.parseInt(args[1]));
+
 
     }
 }
